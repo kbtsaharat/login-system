@@ -1,5 +1,9 @@
 # 🧠 Login System — Fullstack Authentication (Next.js + NestJS + PostgreSQL + Docker)
 
+<p align="center">
+  <img src="./assets/Screenshot 2568-10-28 at 22.13.57.png" alt="Login System Preview" width="800">
+</p>
+
 ระบบจัดการผู้ใช้และ Authentication แบบ Full-stack  
 พัฒนาโดยใช้ **Next.js (Frontend)** + **NestJS (Backend)** + **PostgreSQL (Database)**  
 รองรับทั้งการใช้งานในเครื่อง (Dev) และบน Server (Production Docker)
@@ -183,17 +187,6 @@ docker compose -f docker-compose.prod.yml up -d --build
 | `docker logs nest-backend`                     | ดู log ของ backend       |
 | `docker exec -it postgres-db psql -U postgres` | เข้าฐานข้อมูล            |
 | `docker compose down -v`                       | หยุดและลบ volume ทั้งหมด |
-
----
-
-## 📸 Project Preview
-
-<p align="center">
-  <img src="./assets/Screenshot 2568-10-28 at 22.13.57.png" alt="Login Page Preview" width="700">
-</p>
-
-> 🧩 ตัวอย่างหน้า Register และ Login จากระบบ Frontend (Next.js)  
-> เชื่อมต่อกับ Backend (NestJS) ผ่าน JWT Authentication
 
 ---
 
