@@ -186,6 +186,17 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ---
 
+## 📸 Project Preview
+
+<p align="center">
+  <img src="./assets/Screenshot 2568-10-28 at 22.13.57.png" alt="Login Page Preview" width="700">
+</p>
+
+> 🧩 ตัวอย่างหน้า Register และ Login จากระบบ Frontend (Next.js)  
+> เชื่อมต่อกับ Backend (NestJS) ผ่าน JWT Authentication
+
+---
+
 ## 🧠 Roadmap (Next Steps)
 
 * [ ] เพิ่ม CI/CD ผ่าน GitHub Actions
