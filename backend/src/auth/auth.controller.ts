@@ -12,8 +12,8 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() body: { email: string; password: string }) {
-    const user = await this.usersService.create(body.email, body.password);
+  async register(@Body() body: { email: string; password: string; name?: string }) {
+    const user = await this.usersService.create(body.email, body.password, body.name);
     return { message: 'User registered successfully', user };
   }
 
@@ -30,7 +30,10 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Req() req: any) {
-    return req.user;
+    return {
+      id: req.user.sub,
+      name: req.user.name,
+      email: req.user.email,
+    };
   }
-
 }

@@ -19,9 +19,9 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { email } });
   }
 
-  async create(email: string, password: string): Promise<User> {
+  async create(email: string, password: string, name?: string): Promise<User> {
     const hashed = await bcrypt.hash(password, 10);
-    const user = this.usersRepository.create({ email, password: hashed });
+    const user = this.usersRepository.create({ email, password: hashed, name });
     return this.usersRepository.save(user);
   }
 }

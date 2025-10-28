@@ -1,64 +1,71 @@
+'use client';
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const router = useRouter();
+
+  // ✅ ถ้ามี token ให้เด้งไป /dashboard ทันที
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-slate-100 to-blue-100 dark:from-zinc-900 dark:to-black font-sans">
+      <main className="flex flex-col items-center justify-center w-full max-w-md bg-white dark:bg-zinc-900 shadow-2xl rounded-2xl p-10 text-center border border-gray-100 dark:border-zinc-800">
+
+        {/* โลโก้ */}
+        <div className="flex flex-col items-center gap-2 mb-6">
+          {/* <Image
+            src="/vizzeltrack-logo.svg" // ✅ ใส่โลโก้จริงของคุณ (ถ้ามี)
+            alt="VizzelTrack logo"
+            width={80}
+            height={80}
+            className="rounded-full dark:invert"
+            priority
+          /> */}
+          <h1 className="text-3xl font-bold text-blue-700 dark:text-blue-400">
+            VizzelTrack
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* ข้อความต้อนรับ */}
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+          Welcome to VizzelTrack
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-sm">
+          The smarter way to <span className="font-medium text-blue-600">visualize </span> 
+          and <span className="font-medium text-blue-600">track</span> your business data.
+        </p>
+
+        {/* ปุ่ม Sign In / Sign Up */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-xs">
+          <Button
+            asChild
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-[1.02]"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <a href="/login">Sign In</a>
+          </Button>
+
+          <Button
+            asChild
+            variant="outline"
+            className="flex-1 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-800 transition-all hover:scale-[1.02]"
           >
-            Documentation
-          </a>
+            <a href="/register">Sign Up</a>
+          </Button>
         </div>
+
+        {/* Footer */}
+        <p className="text-xs text-gray-400 mt-8">
+          © {new Date().getFullYear()} VizzelTrack. All rights reserved.
+        </p>
       </main>
     </div>
   );
