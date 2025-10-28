@@ -1,108 +1,200 @@
+## 🧠 README.md (ฉบับ Final สำหรับโปรเจกต์ของคุณ)
 
-# 🧠 Login System (NestJS + PostgreSQL + React)
+```markdown
+# 🧠 Login System — Fullstack Authentication (Next.js + NestJS + PostgreSQL + Docker)
 
-ระบบจัดการผู้ใช้งานแบบ Full-stack ที่พัฒนาเพื่อสาธิตการเชื่อมต่อระหว่าง **Frontend (React)** และ **Backend (NestJS)**  
-พร้อมระบบ **Authentication (JWT)** และฐานข้อมูล **PostgreSQL**
-
----
-
-## 🚀 Features
-
-### 🖥️ Backend (NestJS)
-- ลงทะเบียนผู้ใช้ใหม่ (`/auth/register`)
-- เข้าสู่ระบบด้วย JWT (`/auth/login`)
-- ดึงข้อมูลโปรไฟล์ (`/users/profile`)
-- ใช้ **TypeORM** เชื่อมต่อกับ PostgreSQL
-- ใช้ **bcrypt** สำหรับเข้ารหัสรหัสผ่าน
-- ปลอดภัยด้วย **Passport JWT Strategy**
-
-### 💡 Frontend (React)
-- แบบฟอร์มสมัครสมาชิกและเข้าสู่ระบบ
-- จัดการ Token ที่ได้จาก Backend
-- แสดงข้อมูลผู้ใช้เมื่อเข้าสู่ระบบสำเร็จ
+ระบบจัดการผู้ใช้และ Authentication แบบ Full-stack  
+พัฒนาโดยใช้ **Next.js (Frontend)** + **NestJS (Backend)** + **PostgreSQL (Database)**  
+รองรับทั้งการใช้งานในเครื่อง (Dev) และบน Server (Production Docker)
 
 ---
 
-## 🧰 Tech Stack
+## 🧩 Tech Stack Overview
 
-| ส่วน | เทคโนโลยี |
-|------|-------------|
-| Frontend | React, Axios, Tailwind CSS |
-| Backend | NestJS, TypeORM, Passport, JWT |
-| Database | PostgreSQL |
-| Tools | Git, Postman, VS Code |
+| Layer | Tech | Notes |
+|--------|------|-------|
+| **Frontend** | Next.js (React) + Shadcn/UI + Tailwind CSS | SSR/SSG, modern UI, customizable component |
+| **Backend** | NestJS (TypeScript, Node.js) | Modular, scalable, รองรับ REST/GraphQL, ใช้ Dependency Injection |
+| **ORM / DB** | TypeORM + PostgreSQL | Type-safe query, auto schema sync |
+| **Auth** | JWT (JSON Web Token) | Auth ระหว่าง Backend ↔ Frontend |
+| **Infra** | Docker + Docker Compose | รัน environment เดียวกันทุกเครื่อง |
+| **CI/CD** | GitHub Actions + Docker Hub *(optional)* | Build/test/deploy อัตโนมัติ |
+| **Optional** | FastAPI (Python) | รองรับ microservice ด้าน ML / Data Processing |
 
 ---
 
-## ⚙️ Installation & Setup
+## 📂 Project Structure
 
-### 1️⃣ Clone โปรเจกต์นี้
+```
+
+login-system/
+├── backend/
+│   ├── src/
+│   │   ├── auth/              # JWT Auth module
+│   │   ├── users/             # User CRUD module
+│   │   ├── app.module.ts      # Root Nest module
+│   │   ├── main.ts            # Entry point
+│   │   └── ...
+│   ├── .env.production
+│   ├── Dockerfile
+│   └── package.json
+│
+├── frontend/
+│   ├── app/
+│   │   ├── login/             # Login page
+│   │   ├── register/          # Register page
+│   │   ├── (protected)/       # Dashboard pages
+│   │   └── layout.tsx
+│   ├── components/ui/         # Reusable UI (shadcn/ui)
+│   ├── lib/                   # Utilities & API calls
+│   ├── Dockerfile
+│   └── package.json
+│
+├── docker-compose.prod.yml
+└── README.md
+
+````
+
+---
+
+## ⚙️ Setup Guide
+
+### 🧑‍💻 สำหรับนักพัฒนา (Local Development)
+
+#### 1️⃣ Clone โปรเจกต์
 ```bash
 git clone https://github.com/kbtsaharat/login-system.git
 cd login-system
 ````
 
-### 2️⃣ ตั้งค่า Backend
+#### 2️⃣ ตั้งค่า Environment
 
-```bash
-cd backend
-npm install
-```
-
-สร้างไฟล์ `.env`
+**สร้างไฟล์ `backend/.env.development`**
 
 ```env
-# ==== Database Config ====
+NODE_ENV=development
 DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
-DB_PASSWORD=password
-DB_NAME=postgres
-
-# ==== JWT Config ====
+DB_PASSWORD=1234
+DB_NAME=my_app_db
 JWT_SECRET=mySuperSecretKey123
 JWT_EXPIRES_IN=1d
-
-# ==== App Config ====
 PORT=3000
-NODE_ENV=development
 ```
 
-เริ่มเซิร์ฟเวอร์
+**สร้างไฟล์ `frontend/.env.development`**
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+#### 3️⃣ รันด้วย Docker
 
 ```bash
-npm run start:dev
+docker compose -f docker-compose.yml up -d --build
 ```
+
+ระบบที่ได้:
+
+| Service            | URL                                            |
+| ------------------ | ---------------------------------------------- |
+| Frontend (Next.js) | [http://localhost:5173](http://localhost:5173) |
+| Backend (NestJS)   | [http://localhost:3000](http://localhost:3000) |
+| pgAdmin            | [http://localhost:5050](http://localhost:5050) |
+| PostgreSQL         | localhost:5432                                 |
+
+> pgAdmin login: **[admin@local.com](mailto:admin@local.com) / admin123**
 
 ---
 
-### 3️⃣ ตั้งค่า Frontend
+### 🚀 สำหรับ Deploy (Production)
+
+> ใช้ `docker-compose.prod.yml` ซึ่งรวม backend + frontend + db + pgAdmin
+
+#### 1️⃣ ตรวจสอบ environment
+
+**`backend/.env.production`**
+
+```env
+NODE_ENV=production
+DB_HOST=postgres-db
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=1234
+DB_NAME=my_app_db
+JWT_SECRET=mySuperSecretKey123
+JWT_EXPIRES_IN=1d
+```
+
+**`frontend/.env.production`**
+
+```env
+NEXT_PUBLIC_API_URL=http://nest-backend:3000
+```
+
+#### 2️⃣ รัน production
 
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose -f docker-compose.prod.yml up -d --build
 ```
 
+#### 3️⃣ ตรวจสอบผลลัพธ์
+
+| Container       | Port | Description |
+| --------------- | ---- | ----------- |
+| `next-frontend` | 5173 | Web UI      |
+| `nest-backend`  | 3000 | REST API    |
+| `postgres-db`   | 5432 | Database    |
+| `pgadmin`       | 5050 | DB UI       |
+
+> เข้าผ่านเบราเซอร์:
+> 🌐 [http://localhost:5173/register](http://localhost:5173/register) → สมัครสมาชิก
+> 🌐 [http://localhost:5050](http://localhost:5050) → จัดการฐานข้อมูลผ่าน pgAdmin
+
 ---
 
-## 🧪 ทดสอบ API
+## 🧪 API Endpoints
 
-ใช้ Postman เพื่อเรียก endpoint ต่อไปนี้
-
-| Method | Endpoint         | Description                    |
-| ------ | ---------------- | ------------------------------ |
-| POST   | `/auth/register` | สมัครสมาชิก                    |
-| POST   | `/auth/login`    | เข้าสู่ระบบ                    |
-| GET    | `/users/profile` | ดูข้อมูลผู้ใช้ (ต้องส่ง Token) |
+| Method | Endpoint         | Description                     |
+| ------ | ---------------- | ------------------------------- |
+| POST   | `/auth/register` | สมัครสมาชิก                     |
+| POST   | `/auth/login`    | เข้าสู่ระบบ                     |
+| GET    | `/users/profile` | ดึงข้อมูลผู้ใช้ (JWT Protected) |
 
 ---
 
-## 📸 ตัวอย่างการทำงาน
+## 🔑 Environment Variables Explained
 
-* ✅ ลงทะเบียนผู้ใช้ใหม่
-* ✅ เข้าสู่ระบบและได้ JWT Token
-* ✅ ใช้ Token เพื่อเข้าถึงข้อมูลโปรไฟล์
+| Key                           | Description                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `DB_HOST`                     | Host ของฐานข้อมูล (ใช้ `postgres-db` ใน Docker) |
+| `DB_PORT`                     | Port ของ PostgreSQL                             |
+| `DB_USERNAME` / `DB_PASSWORD` | บัญชีเชื่อมต่อ DB                               |
+| `DB_NAME`                     | ชื่อ Database                                   |
+| `JWT_SECRET`                  | คีย์สำหรับเข้ารหัส JWT                          |
+| `JWT_EXPIRES_IN`              | อายุ token เช่น `1d`                            |
+| `NEXT_PUBLIC_API_URL`         | URL ของ backend (frontend ใช้อ้างอิง)           |
+
+---
+
+## 🧰 Useful Commands
+
+| คำสั่ง                                         | ใช้ทำอะไร                |
+| ---------------------------------------------- | ------------------------ |
+| `docker ps`                                    | ดู container ที่รันอยู่  |
+| `docker logs nest-backend`                     | ดู log ของ backend       |
+| `docker exec -it postgres-db psql -U postgres` | เข้าฐานข้อมูล            |
+| `docker compose down -v`                       | หยุดและลบ volume ทั้งหมด |
+
+---
+
+## 🧠 Roadmap (Next Steps)
+
+* [ ] เพิ่ม CI/CD ผ่าน GitHub Actions
+* [ ] แยก environment (staging / prod)
+* [ ] เพิ่ม role-based auth (Admin/User)
+* [ ] เพิ่ม FastAPI microservice (optional)
 
 ---
 
@@ -114,5 +206,5 @@ npm run dev
 
 ---
 
-> 💬 *Project นี้ถูกพัฒนาขึ้นเพื่อศึกษาการทำระบบ Authentication ด้วย NestJS และ React ไม่ได้ใช้ในเชิงพาณิชย์*
-
+> 💬 *Project นี้สร้างขึ้นเพื่อศึกษาและพัฒนา Authentication system
+> ด้วย Next.js + NestJS + PostgreSQL + Docker*
