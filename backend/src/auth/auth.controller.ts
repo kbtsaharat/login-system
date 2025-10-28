@@ -1,6 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { JwtAuthGuard } from './jwt-auth.guard'; // ✅ ต้องมี
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +21,16 @@ export class AuthController {
   async login(@Body() body: { email: string; password: string }) {
     const user = await this.authService.validateUser(body.email, body.password);
     if (!user) {
-      return { message: 'Invalid email or password' };
+      throw new UnauthorizedException('Invalid email or password');
     }
     return this.authService.login(user);
   }
+
+  // ✅ เพิ่มตรงนี้
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() req: any) {
+    return req.user;
+  }
+
 }

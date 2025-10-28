@@ -53,9 +53,10 @@ export function AppSidebar() {
       }
 
       axios
-        .get("http://localhost:3000/profile", {
+        .get("http://localhost:3000/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         })
+
         .then((res) => {
           setUser(res.data)
           localStorage.setItem("user", JSON.stringify(res.data))

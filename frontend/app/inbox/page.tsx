@@ -34,9 +34,10 @@ export default function InboxPage() {
     }
 
     axios
-      .get("http://localhost:3000/profile", {
+      .get("http://localhost:3000/auth/profile", {
         headers: { Authorization: `Bearer ${token}` },
       })
+
       .then((res) => setUser(res.data))
       .catch(() => router.push("/login"))
   }, [router])
