@@ -52,12 +52,20 @@ npm install
 สร้างไฟล์ `.env`
 
 ```env
+# ==== Database Config ====
 DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
-DB_PASSWORD=123456
+DB_PASSWORD=password
 DB_NAME=postgres
-JWT_SECRET=secret123
+
+# ==== JWT Config ====
+JWT_SECRET=mySuperSecretKey123
+JWT_EXPIRES_IN=1d
+
+# ==== App Config ====
+PORT=3000
+NODE_ENV=development
 ```
 
 เริ่มเซิร์ฟเวอร์
@@ -71,9 +79,9 @@ npm run start:dev
 ### 3️⃣ ตั้งค่า Frontend
 
 ```bash
-cd ../frontend
+cd frontend
 npm install
-npm start
+npm run dev
 ```
 
 ---
@@ -109,19 +117,4 @@ npm start
 > 💬 *Project นี้ถูกพัฒนาขึ้นเพื่อศึกษาการทำระบบ Authentication ด้วย NestJS และ React ไม่ได้ใช้ในเชิงพาณิชย์*
 
 ````
-
----
-
-## ✅ วิธีเพิ่มในโปรเจกต์
-
-1. ไปที่โฟลเดอร์ `D:\Dev\login-system`
-2. สร้างไฟล์ชื่อ `README.md`
-3. วางข้อความข้างบนลงไป
-4. บันทึกไฟล์ แล้ว commit/push ขึ้น GitHub:
-   ```bash
-   git add README.md
-   git commit -m "add project README"
-   git push
-````
-
 
