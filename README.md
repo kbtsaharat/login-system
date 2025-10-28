@@ -1,6 +1,3 @@
-## 🧠 README.md (ฉบับ Final สำหรับโปรเจกต์ของคุณ)
-
-```markdown
 # 🧠 Login System — Fullstack Authentication (Next.js + NestJS + PostgreSQL + Docker)
 
 ระบบจัดการผู้ใช้และ Authentication แบบ Full-stack  
